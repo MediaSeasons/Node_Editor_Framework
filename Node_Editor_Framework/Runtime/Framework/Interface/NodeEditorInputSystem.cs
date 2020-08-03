@@ -196,11 +196,18 @@ namespace NodeEditorFramework
 		}
 
 		/// <summary>
+		/// Flag to ignore input
+		/// </summary>
+		public static bool InputIgnored { get; set; }
+
+		/// <summary>
 		/// Returns whether to account for input in the given state using the mousePosition
 		/// </summary>
 		internal static bool shouldIgnoreInput (NodeEditorState state) 
 		{
 			if (state == null)
+				return true;
+			if (InputIgnored)
 				return true;
 			// Account for any opened popups
 			if (OverlayGUI.HasPopupControl ())

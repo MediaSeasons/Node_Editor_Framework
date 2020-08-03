@@ -14,7 +14,7 @@ namespace NodeEditorFramework
 	/// </summary>
 	public static partial class NodeEditor 
 	{
-		public static string editorPath = "Assets/Plugins/Node_Editor_Framework/";
+		public static string editorPath = "Assets/Extensions/Node Editor Framework/Node_Editor_Framework/";
 
 		// The NodeCanvas which represents the currently drawn Node Canvas; globally accessed
 		public static NodeCanvas curNodeCanvas;
@@ -186,17 +186,17 @@ namespace NodeEditorFramework
 			if (curNodeCanvas == null || curEditorState == null || !curEditorState.drawing)
 				return;
 
-			if (Event.current.type == EventType.Repaint) 
-			{ // Draw Background when Repainting
-				// Offset from origin in tile units
-				Vector2 tileOffset = new Vector2 (-(curEditorState.zoomPos.x * curEditorState.zoom + curEditorState.panOffset.x) / NodeEditorGUI.Background.width, 
-					((curEditorState.zoomPos.y - curEditorState.canvasRect.height) * curEditorState.zoom + curEditorState.panOffset.y) / NodeEditorGUI.Background.height);
-				// Amount of tiles
-				Vector2 tileAmount = new Vector2 (Mathf.Round (curEditorState.canvasRect.width * curEditorState.zoom) / NodeEditorGUI.Background.width,
-					Mathf.Round (curEditorState.canvasRect.height * curEditorState.zoom) / NodeEditorGUI.Background.height);
-				// Draw tiled background
-				GUI.DrawTextureWithTexCoords (curEditorState.canvasRect, NodeEditorGUI.Background, new Rect (tileOffset, tileAmount));
-			}
+			//if (Event.current.type == EventType.Repaint) 
+			//{ // Draw Background when Repainting
+			//	// Offset from origin in tile units
+			//	Vector2 tileOffset = new Vector2 (-(curEditorState.zoomPos.x * curEditorState.zoom + curEditorState.panOffset.x) / NodeEditorGUI.Background.width, 
+			//		((curEditorState.zoomPos.y - curEditorState.canvasRect.height) * curEditorState.zoom + curEditorState.panOffset.y) / NodeEditorGUI.Background.height);
+			//	// Amount of tiles
+			//	Vector2 tileAmount = new Vector2 (Mathf.Round (curEditorState.canvasRect.width * curEditorState.zoom) / NodeEditorGUI.Background.width,
+			//		Mathf.Round (curEditorState.canvasRect.height * curEditorState.zoom) / NodeEditorGUI.Background.height);
+			//	// Draw tiled background
+			//	GUI.DrawTextureWithTexCoords (curEditorState.canvasRect, NodeEditorGUI.Background, new Rect (tileOffset, tileAmount));
+			//}
 
 			// Handle input events
 			NodeEditorInputSystem.HandleInputEvents (curEditorState);
@@ -206,6 +206,8 @@ namespace NodeEditorFramework
 			// We're using a custom scale method, as default one is messing up clipping rect
 			Rect canvasRect = curEditorState.canvasRect;
 			curEditorState.zoomPanAdjust = GUIScaleUtility.BeginScale (ref canvasRect, curEditorState.zoomPos, curEditorState.zoom, NodeEditorGUI.isEditorWindow, false);
+
+			//Debug.Log(canvasRect.center.x + ", " + canvasRect.center.y + " - " + canvasRect.width + ", " + canvasRect.height + "; " + curEditorState.panOffset.x + ", " + curEditorState.panOffset.y);
 
 			// ---- BEGIN SCALE ----
 
@@ -220,8 +222,16 @@ namespace NodeEditorFramework
 			}
 
 			if (curEditorState.connectKnob != null)
-			{ // Draw the currently drawn connection
-				curEditorState.connectKnob.DrawConnection (Event.current.mousePosition);
+			{
+				if (NodeEditorInputSystem.InputIgnored)
+				{
+					curEditorState.connectKnob = null;
+				}
+				else
+				{
+					// Draw the currently drawn connection
+					curEditorState.connectKnob.DrawConnection(Event.current.mousePosition);
+				}
 				RepaintClients ();
 			}
 
