@@ -321,7 +321,7 @@ namespace NodeEditorFramework
 			Rect headerRect = new Rect (nodeRect.x, nodeRect.y, nodeRect.width, contentOffset.y);
 			GUI.color = backgroundColor;
 			GUI.Box (headerRect, GUIContent.none);
-			GUI.color = Color.white;
+			GUI.color = NodeEditor.curEditorState.selectedNode == this ? new Color(0.8f, 0.8f, 1) : Color.white;
 			GUI.Label (headerRect, Title, GUI.skin.GetStyle (NodeEditor.curEditorState.selectedNode == this? "labelBoldCentered" : "labelCentered"));
 
 			// Begin the body frame around the NodeGUI

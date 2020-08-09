@@ -3,7 +3,7 @@ using NodeEditorFramework.Utilities;
 
 namespace NodeEditorFramework.Standard
 {
-	[Node (false, "Float/Calculation")]
+	[Node (true, "Float/Calculation")]
 	public class CalcNode : Node 
 	{
 		public const string ID = "calcNode";
