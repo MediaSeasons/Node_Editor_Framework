@@ -2,7 +2,7 @@
 
 namespace NodeEditorFramework.Standard
 {
-	[Node (false, "Float/Display")]
+	[Node (true, "Float/Display")]
 	public class DisplayNode : Node 
 	{
 		public const string ID = "displayNode";
